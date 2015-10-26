@@ -216,7 +216,54 @@ var missileCommand = (function() {
   	var x = this.x,
   			y = this.y;
 
+  		context.fillStyle = 'cyan';
+    	context.beginPath();
+    	context.moveTo( x, y );
+    	context.lineTo( x, y - 10 );
+    	context.lineTo( x + 10, y - 10 );
+    	context.lineTo( x + 15, y - 15 );
+    	context.lineTo( x + 20, y - 10 );
+    	context.lineTo( x + 30, y - 10 );
+    	context.lineTo( x + 30, y );
+    	context.closePath();
+    	context.fill();
   };
+
+  function DefenceTower(x, y){
+  	this.x = x;
+  	this.y = y;
+  	this.missilesLeft = 10;
+  };
+
+  DefenceTower.prototype.hasMissile = function() {
+  	return !! this.missilesLeft;
+  };
+
+  //visually showing how many missiles are left within the defence towers
+  DefenceTower.prototype.draw = function(){
+  	var x, y;
+    var delta = [ [0, 0], [-6, 6], [6, 6], [-12, 12], [0, 12],
+                  [12, 12], [-18, 18], [-6, 18], [6, 18], [18, 18] ];
+
+    for( var i = 0, len = this.missilesLeft; i < len; i++ ) {
+      x = this.x + delta[i][0];
+      y = this.y + delta[i][1];
+
+      // Draw a missile
+      context.strokeStyle = 'blue';
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo( x, y );
+      context.lineTo( x, y + 8 );
+      context.moveTo( x - 2, y + 10 );
+      context.lineTo( x - 2, y + 6 );
+      context.moveTo( x + 2, y + 10 );
+      context.lineTo( x + 2, y + 6 );
+      context.stroke();
+    }
+  };
+
+  
 
 
 
