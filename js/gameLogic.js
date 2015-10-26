@@ -282,7 +282,7 @@ var missileCommand = (function() {
 
   //function to draw the missile animation between X && Y || Missile explosion
   Missile.prototype.draw = function (){
-  	if(this.state === Missile.active){
+  	if(this.state === MISSILE.active){
   		context.strokeStyle = this.trailColor;
       context.lineWidth = 2;
       context.beginPath();
@@ -292,8 +292,8 @@ var missileCommand = (function() {
 
       context.fillStyle = this.color;
       context.fillRect( this.x - 1, this.y - 1, this.width, this.height );
-  	}else if(this.state === Missile.exploding || 
-  					 this.state === Missile.imploding) {
+  	}else if(this.state === MISSILE.exploding || 
+  					 this.state === MISSILE.imploding) {
 
   		context.fillStyle = 'white';
       context.beginPath();
@@ -303,8 +303,31 @@ var missileCommand = (function() {
       explodeOtherMissiles( this, context );
 
       context.fill();
-  	};
-  }
+  	}
+  };
+
+  //Logic for the explosion radius and how to expand it out and then back in
+
+  Missile.prototype.explode = function(){
+  	if(this.state === MISSILE.exploding){
+  		this.explodeRadius++;
+  	}
+  	if(this.explodeRadius > 30) {
+  		this.state = MISSILE.imploding
+  	}
+  	if(this.state === MISSILE.imploding){
+  		this.explodeRadius--;
+  		if(this.groundExplosion){
+  			(this.target[2] instanceof City) ? this.target[2].active = false :
+  																				 this.target[2].missilesLeft = 0;
+  		}
+  	}
+  	if(this.explodeRadius < 0 ){
+  		this.state = MISSILE.exploded;
+  	}
+  };
+
+  
 
 
 
