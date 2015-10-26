@@ -8,22 +8,22 @@ var missileCommand = (function() {
 
 
 	//game variables. Things that will change like score and ammount of cities/missiles left
-	score = 0,
-	level = 1, //level will start at level 1. Make more sense to be level as it will change.
-	cities = [],
-	defenceTowers = [],
-	defenceAmmo = [],
-	attackAmmo = [],
-	timerID;
+	var score = 0,
+			level = 1, //level will start at level 1. Make more sense to be level as it will change.
+			cities = [],
+			defenceTowers = [],
+			defenceAmmo = [],
+			attackAmmo = [],
+			timerID;
 
   //Game logic constants for different variables of the game
-  CANVAS_W = canvas.width;
-  CANVAS_H = canvas.height;
-  MISSILE = {
-  	active : 1,
-  	exploding : 2,
-  	imploding : 3,
-  	exploded : 4
+  var CANVAS_W = canvas.width,
+  		CANVAS_H = canvas.height,
+  		MISSILE = {
+  		active : 1,
+  		exploding : 2,
+  		imploding : 3,
+  		exploded : 4
   };
 
   //contructor for the cities
@@ -210,6 +210,13 @@ var missileCommand = (function() {
     context.fill();
   };
   
+
+  //drawing a city depending on its position
+  City.prototype.draw = function() {
+  	var x = this.x,
+  			y = this.y;
+
+  };
 
 
 
