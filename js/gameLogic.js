@@ -327,6 +327,40 @@ var missileCommand = (function() {
   	}
   };
 
+  //Logic for creating the defenders missiles
+  function playerMissile( source, endX, endY){
+  	//cutting the board into thirds as there are three defenceTowers.
+  	//this stops the risk of trying to fire a missile straight accross the board
+  	//or all three firing at once
+  	var deftow = defenceTowers[source];
+
+  	Missile.call(this, {startX: deftow.x,  startY: deftow.y,
+                          endX: endX,     endY: endY, 
+                          color: 'green', trailColor: 'blue'});
+
+  	var xDistance = this.endX - this.startX,
+  			yDistance = this.endY - this.startY;
+
+  	//player missile distance has been set now we must set angle and speed
+  	var angleSpeed = (function(){
+  		var distance = Math.sqrt( Math.pow(xDistance, 2)+
+  									 					  Math.pow(yDistance, 2) ),
+
+  	//central tower has widest distance to fire so its missiles get a speed boost
+  				distancePerFrame = ( source === 1) ? 20 : 12
+
+  				return distance / distancePerFrame;
+  	}) ();
+
+  	this.dx = xDistance / angleSpeed;
+  	this.dy = yDistance / angleSpeed;
+  	deftow.missilesLeft--;
+  }
+
+  //playerMissile needs to inherit characteristics from missile constructor
+  playerMissile.prototype = Object.create( Missile.prototype );
+  playerMissile.prototype.constructor = playerMissile;
+
   
 
 
