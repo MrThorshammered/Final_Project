@@ -249,7 +249,7 @@ var missileCommand = (function() {
       x = this.x + delta[i][0];
       y = this.y + delta[i][1];
 
-      // Draw a missile
+      // Draw a missile while it's in the defence tower
       context.strokeStyle = 'blue';
       context.lineWidth = 2;
       context.beginPath();
@@ -263,7 +263,48 @@ var missileCommand = (function() {
     }
   };
 
-  
+  //what the missile will look like and the trail it leaves behind it
+
+  function Missile( options ){
+  	this.startX = options.startX;
+  	this.startY = options.startY;
+  	this.endX = opitons.endX;
+  	this.endY = options.endY;
+  	this.color = options.color;
+  	this.trailColor = options.trailColor;
+  	this.x = options.startX;
+  	this.y = options.startY;
+  	this.state = MISSILE.active;
+  	this.width = 2;
+  	this.height = 2;
+  	this.explodeRadius = 0;
+  };
+
+  //function to draw the missile animation between X && Y || Missile explosion
+  Missile.prototype.draw = function (){
+  	if(this.state === Missile.active){
+  		context.strokeStyle = this.trailColor;
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo( this.startX, this.startY );
+      context.lineTo( this.x, this.y );
+      context.stroke();
+
+      context.fillStyle = this.color;
+      context.fillRect( this.x - 1, this.y - 1, this.width, this.height );
+  	}else if(this.state === Missile.exploding || 
+  					 this.state === Missile.imploding) {
+
+  		context.fillStyle = 'white';
+      context.beginPath();
+      context.arc( this.x, this.y, this.explodeRadius, 0, 2 * Math.PI );
+      context.closePath();
+
+      explodeOtherMissiles( this, context );
+
+      context.fill();
+  	};
+  }
 
 
 
