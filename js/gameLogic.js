@@ -509,15 +509,99 @@ var missileCommand = (function() {
   			citiesBonus = citiesSaved * 50 * getMultiplier();
 
   			endOfLevelMessage( missilesLeft, missilesBonus, 
-                  citiesSaved, citiesBonus );
+                  				 citiesSaved, citiesBonus );
 
   	//show the initial end of level score then update with knew bonus score
-  	setTimout( function(){
-  		score += missilesBonus += citiesBonus
-  	})
+  	setTimeout( function(){
+  		score += missilesBonus + citiesBonus;
+  		endOfLevelMessage( missilesLeft, missilesBonus, 
+                  			 citiesSaved, citiesBonus );
+  	}, 2000);
+
+  	setTimeout(setNextLevel, 4000);
+  };
+
+  //now that the level has ended we need to set up the next one
+
+  var setNextLevel = function(){
+  	level++;
+  	startGame();
+  	setUpListeners();
   }
 
+  //logic for if the game is over and you've died
 
+  var endGame = function(missilesLeft){
+  	score += missilesLeft * 5 * getMultiplier();
+  	drawEndGame();
+
+  	$( 'body').on('click', 'div', function(){
+  		location.reload();
+  	});
+  };
+
+  //need to get all the missiles that are left in the defence towers at the end of each game
+  var totalMissilesLeft = function(){
+  	var total = 0;
+
+  	$.each(defenceTowers, function(index, deftow){
+  		total += deftow.missilesLeft;
+  	});
+  	return total;
+  };
+
+  //amount of cities that have been saved
+  var totalCitiesSaved = function(){
+  	var total = 0;
+  	$.each(cities, function(index, city){
+  		if(city.active){
+  			total++;
+  		}
+  	});
+  	return total;
+  };
+
+  //tracking of attacking missiles and removing them if they've blown up
+
+  var updateAttackMissiles = function() {
+  	$.each(attackAmmo, function(index, missile){
+  		missile.update();
+  	});
+  	attackAmmo = attackAmmo.filter( function(missile){
+  		return missile.state !== MISSILE.exploded;
+  	});
+  }
+ 
+  //drawing each attacking missile
+  var drawAttackMissiles = function(){
+  	$.each(attackAmmo, function(index, missile){
+  		missile.draw();
+  	});
+  };
+
+  //tracking of all players missiles and removing any that have blown up 
+  var updatePlayerMissiles = function(){
+  	$.each(defenceAmmo, function(index, missile){
+  		missile.update();
+  	});
+  	defenceAmmo = defenceAmmo.filter( function(missile){
+  		return missile.state !== MISSILE.exploded;
+  	});
+  }
+
+  //and drawing each of the defending missiles
+  var drawPlayerMissiles = function(){
+  	$.each(defenceAmmo, function(index, missile){
+  		missile.draw();
+  	});
+  };
+
+  //function to stop animating the level for the end game 
+  var finishLevel = function() {
+  	clearInterval(timerID);
+  };
+
+  
 
 
 
