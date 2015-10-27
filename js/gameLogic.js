@@ -647,7 +647,29 @@ var missileCommand = (function() {
     }
   };
 
-  //finally add event listeners to 
+  //finally add event listeners to the canvas so that we can take player input on where to fire
+  var setUpListeners = function(){
+  	$('.container').one('click', function(){
+  		startGame();
+
+  		$('.container').on('click', function(event){
+  			playerShoot(event.pageX - this.offsetLeft,
+  									event.pageY - this.offsetTop);
+  		});
+  	});
+  };
+
+  return{
+  	initialize: initialize,
+  	setUpListeners: setUpListeners
+  };
+
+})();
+
+$(document).ready(function(){
+	missileCommand.initialize();
+	missileCommand.setUpListeners();
+});
 
 
 
@@ -656,5 +678,3 @@ var missileCommand = (function() {
 
 
 
-
-})
