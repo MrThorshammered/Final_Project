@@ -410,7 +410,15 @@ var missileCommand = (function() {
   			this.dx = ( this.endX - this.startX) / disToTarget
   			this.dy = ( this.endY - this.startY) / disToTarget
 
+  			this.target = target;
+
+  			//we also don't want all missiles to fire at once as that would end the
+  			//level / game very quickly 
+  			this.delay = random(0, 50 + level*15);
+  			this.groundExplosion = false;
   }
+
+  
 
 
 
