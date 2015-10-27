@@ -442,7 +442,19 @@ var missileCommand = (function() {
   	}
   };
 
-  
+  //we also want to blow up other enemy missiles with the blast radius from an 
+  //exploding enemy missiles (chaining of explosions)
+  var explodeOtherMissiles(Missile, context){
+  	if( !missile.groundExplosion){
+  		$.each( attackAmmo, function(index, otherMissile){
+  			if(context.isPointInPath( otherMissile.x, otherMissile.y) 
+  					&& otherMissile.state === MISSILE.active){
+  				score += 25 * getMultiplier();
+  				otherMissile.state = MISSILE.exploding;
+  			}
+  		});
+  	}
+  };
 
 
 
