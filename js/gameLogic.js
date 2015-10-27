@@ -503,7 +503,19 @@ var missileCommand = (function() {
   	}
   };
 
-  
+  //logic for if the round has ended but game is still going 
+  var endLevel = function(missilesLeft, citiesSaved) {
+  	var missilesBonus = missilesLeft * 5 * getMultiplier(),
+  			citiesBonus = citiesSaved * 50 * getMultiplier();
+
+  			endOfLevelMessage( missilesLeft, missilesBonus, 
+                  citiesSaved, citiesBonus );
+
+  	//show the initial end of level score then update with knew bonus score
+  	setTimout( function(){
+  		score += missilesBonus += citiesBonus
+  	})
+  }
 
 
 
