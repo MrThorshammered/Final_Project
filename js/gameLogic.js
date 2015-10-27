@@ -361,7 +361,56 @@ var missileCommand = (function() {
   playerMissile.prototype = Object.create( Missile.prototype );
   playerMissile.prototype.constructor = playerMissile;
 
-  
+
+  //physics logic to track the players missile and explode it
+  playerMissile.prototype.update = function(){
+  	if(this.state === MISSILE.active && this.y === this.endY ){
+  		//the target can be considered to have been reached 
+  		this.x = this.endX;
+  		this.y = this.endY;
+  		this.state = MISSILE.exploding;
+  	}
+  	if (this.state === MISSILE.active){
+  		this.x += this.dx;
+  		this.y += this.dy;
+  	}else{
+  		this.explode();
+  	}
+  };
+
+  //now that logic for missile has been done we need to create a missile
+  var playerShoot = function(x,y){
+  	if(y >= 50 && y <= 370){
+  		var source = whichDefTower(x);
+  		if(source === -1){ //if source returns with minus one then the defTower is out of ammo
+  			return;
+  		}
+  		defenceAmmo.push( new playerMissile( source, x, y));
+  	}
+  };
+
+  //now we require the constructor logic for the enemies missile(how would they attack?)
+  var AttackMissile(targets){
+  	var startX = random(CANVAS_W, 0),
+  			startY = 0, //because the attacking missiles will always start at the top of the page
+  			//we then want to add a bit of variation in missiles so we'll add speed variation
+  			changeSpeed = random(80, 120) / 100,
+  			//since we're adding variation to speed we also want random targets instead of every 
+  			//missile attacking one location
+  			target = targets[ random(0, targets.length -1)],
+  			disToTarget;
+
+  			Missile.call( this, { startX: startX, startY: startY, endX: target[0], endY: target[1],
+  														color: 'yellow', trailColor: 'red'});
+
+  			disToTarget = (650 - 30 * level) / changeSpeed;
+  				if(disToTarget < 20) {
+  					disToTarget = 20;
+  				}
+  			this.dx = ( this.endX - this.startX) / disToTarget
+  			this.dy = ( this.endY - this.startY) / disToTarget
+
+  }
 
 
 
