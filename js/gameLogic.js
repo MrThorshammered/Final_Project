@@ -456,6 +456,55 @@ var missileCommand = (function() {
   	}
   };
 
+  //now we need logic for the attacking ai to target specific cities and defence towers
+  var potentialTargets = function(){
+  	var targets =[];
+
+  	//need to add all the cities that are alive for selection
+  	$.each(cities, function(index, city){
+  		if(city.active) {
+  			targets.push( [ ctiy.x +15, city.y -10, city] );
+  		}
+  	});
+  	//randomly select 3 cities. Gives the ai a better chance to hit and destroy a city
+  	while( targets.length > 3 ){
+  		targets.splice( random(0, targets.length -1), 1);
+  	}
+
+  	//will also need to inculde the defence towers as targets to attack as well
+  	$.each(defenceTowers, function(index, deftow){
+  		targets.push([deftow.x, deftow.y, deftow]);
+  	});
+
+  	return targets;
+  };
+
+  //need to now animate each frame as it happens
+
+  var animate = function() {
+  	drawGameParts();
+  	updateAttackMissiles();
+  	drawAttackMissiles();
+  	updatePlayerMissiles();
+  	drawPlayerMissiles();
+  	checkEndOfLevel();
+  }
+
+  //now to check to see if the round/game has ended
+  var checkEndOfLevel = function(){
+  	if(!attackAmmo.length){
+  		finishLevel();
+  		$('container').off('click');
+  		var missilesLeft = totalMissilesLeft();
+  		citiesSaved = totalCitiesSaved();
+
+  		!citiesSaved ? endGame(missilesLeft):
+  									 endLevel(missilesLeft, citiesSaved);
+  	}
+  };
+
+  
+
 
 
 
