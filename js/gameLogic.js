@@ -596,12 +596,60 @@ var missileCommand = (function() {
   	});
   };
 
-  //function to stop animating the level for the end game 
+  //need a function to start animating the game
+  var startGame = function(){
+  	var fps = 30;
+  	timerID = setInterval( animate, 1000 / fps );
+  }
+
+  //and a function to stop animating the level for the end game 
   var finishLevel = function() {
   	clearInterval(timerID);
   };
 
-  
+  //final major function. this is to determine which of the 3 defence towers will fire 
+  // a missile depending on the location of the target and which has ammo
+  var whichDefTower = function(x){
+  	var fireOuterThirds = function(priority1, priority2, priority3){
+  		if( defenceTowers[priority1].hasMissile() ) {
+        return priority1;
+      } else if ( defenceTowers[priority2].hasMissile() ) {
+        return priority2;
+      } else {
+        return priority3;
+      }
+    };
+
+    var fireToCenter = function(priority1, priority2){
+    	if( defenceTowers[priority1].hasMissile() ) {
+        return priority1;
+      } else {
+        return priority2;
+      };
+    };
+
+    if( !defenceTowers[0].hasMissile() && 
+        !defenceTowers[1].hasMissile() &&
+        !defenceTowers[2].hasMissile() ) {
+      return -1;
+    }
+    if( x <= CANVAS_W / 3 ){
+      return fireOuterThirds( 0, 1, 2 );
+    } else if( x <= (2 * CANVAS_WIDTH / 3) ) {
+      if ( defenceTowers[1].hasMissile() ) {
+        return 1;
+      } else {
+        return ( x <= CANVAS_WIDTH / 2 ) ? fireToCenter( 0, 2 )
+                                         : fireToCenter( 2, 0 );
+      }
+    } else {
+      return fireOuterThirds( 2, 1, 0 );
+    }
+  };
+
+  //finally add event listeners to 
+
+
 
 
 
