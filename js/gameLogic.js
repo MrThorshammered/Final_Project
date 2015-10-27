@@ -418,6 +418,30 @@ var missileCommand = (function() {
   			this.groundExplosion = false;
   }
 
+  AttackMissile.prototype = Object.create(Missile.prototype);
+  AttackMissile.prototype.constructor = AttackMissile;
+
+  //now to track the missile and update it's status depending on where it is
+  AttackMissile.prototype.update = function(){
+  	if(this.delay){//function to countdown the delay until the missile fires
+  		this.delay--;
+  		return;
+  	}
+  	if(this.state === MISSILE.active && this.y >= this.endY){//aka missile has hit something
+
+  		this.x = this.endX;
+  		this.y = this.endY;
+  		this.state = MISSILE.exploding;
+  		this.groundExplosion = true;
+  	}
+  	if(this.state === MISSILE.active){//aka missile fired but not hit anything
+  		this.x += this.dx;
+  		this.y += this.dy;
+  	}else{
+  		this.explode();//badda bing, badda boom!!
+  	}
+  };
+
   
 
 
