@@ -43,16 +43,16 @@ var missileCommand = (function() {
   	cities.push( new City(350, 430) );
   	cities.push( new City(400, 430) );
 
-  	defenceTowers.push( new DefenceTowers(35, 410));
-  	defenceTowers.push( new DefenceTowers(255, 410));
-  	defenceTowers.push( new DefenceTowers(475, 410));
+  	defenceTowers.push( new DefenceTower(35, 410));
+  	defenceTowers.push( new DefenceTower(255, 410));
+  	defenceTowers.push( new DefenceTower(475, 410));
 
-  	startGame()
+  	startGame();
   };
 
   var startGame = function() {
   	$.each ( defenceTowers, function(index, deftow){
-  		deftow.missilesLeft = 10
+  		deftow.missilesLeft = 10;
   	});
 
   	attackAmmo = [];
@@ -65,7 +65,7 @@ var missileCommand = (function() {
   //this creates the amount of missiles that will attack depending on the level
   //and increase the difficulty (number of missiles) depending on the level
   createAttackMissiles = function() {
-  	var defenceTargets = potentialTargets(),
+  	var targets = potentialTargets(),
   		missileNum = ((level + 7) < 30 ) ? level + 7 : 30;
 
   	for (var i = 0; i < missileNum; i++) {
@@ -93,8 +93,8 @@ var missileCommand = (function() {
 
   //show the current score of the user defending 
   var userScore = function(){
-  	context.fillStyle = 'red'
-  	context.font = 'bold 20px Helvetica'
+  	context.fillStyle = 'red';
+  	context.font = 'bold 20px Helvetica';
   	context.fillText('Score ' + score, 80,15);
   };
 
@@ -176,7 +176,7 @@ var missileCommand = (function() {
   	$.each(defenceTowers, function(index, deftow){
   		deftow.draw();
   	});
-  }
+  };
 
   //get the multiplier of the level up to a maximum of six(score * amount of cities left)
   var getMultiplier = function(){
@@ -233,7 +233,7 @@ var missileCommand = (function() {
   	this.x = x;
   	this.y = y;
   	this.missilesLeft = 10;
-  };
+  }
 
   DefenceTower.prototype.hasMissile = function() {
   	return !! this.missilesLeft;
@@ -268,7 +268,7 @@ var missileCommand = (function() {
   function Missile( options ){
   	this.startX = options.startX;
   	this.startY = options.startY;
-  	this.endX = opitons.endX;
+  	this.endX = options.endX;
   	this.endY = options.endY;
   	this.color = options.color;
   	this.trailColor = options.trailColor;
@@ -278,7 +278,7 @@ var missileCommand = (function() {
   	this.width = 2;
   	this.height = 2;
   	this.explodeRadius = 0;
-  };
+  }
 
   //function to draw the missile animation between X && Y || Missile explosion
   Missile.prototype.draw = function (){
@@ -313,7 +313,7 @@ var missileCommand = (function() {
   		this.explodeRadius++;
   	}
   	if(this.explodeRadius > 30) {
-  		this.state = MISSILE.imploding
+  		this.state = MISSILE.imploding;
   	}
   	if(this.state === MISSILE.imploding){
   		this.explodeRadius--;
@@ -347,7 +347,7 @@ var missileCommand = (function() {
   									 					  Math.pow(yDistance, 2) ),
 
   	//central tower has widest distance to fire so its missiles get a speed boost
-  				distancePerFrame = ( source === 1) ? 20 : 12
+  				distancePerFrame = ( source === 1) ? 20 : 12;
 
   				return distance / distancePerFrame;
   	}) ();
@@ -386,11 +386,11 @@ var missileCommand = (function() {
   			return;
   		}
   		defenceAmmo.push( new playerMissile( source, x, y));
-  	}
+  	};
   };
 
-  //now we require the constructor logic for the enemies missile(how would they attack?)
-  var AttackMissile(targets){
+  //now we require the constructor logic for the enemies missile --how would they attack?---
+  function AttackMissile( targets ){
   	var startX = random(CANVAS_W, 0),
   			startY = 0, //because the attacking missiles will always start at the top of the page
   			//we then want to add a bit of variation in missiles so we'll add speed variation
@@ -407,8 +407,8 @@ var missileCommand = (function() {
   				if(disToTarget < 20) {
   					disToTarget = 20;
   				}
-  			this.dx = ( this.endX - this.startX) / disToTarget
-  			this.dy = ( this.endY - this.startY) / disToTarget
+  			this.dx = ( this.endX - this.startX) / disToTarget;
+  			this.dy = ( this.endY - this.startY) / disToTarget;
 
   			this.target = target;
 
@@ -444,8 +444,8 @@ var missileCommand = (function() {
 
   //we also want to blow up other enemy missiles with the blast radius from an 
   //exploding enemy missiles (chaining of explosions)
-  var explodeOtherMissiles(Missile, context){
-  	if( !missile.groundExplosion){
+  var explodeOtherMissiles = function(Missile, context){
+  	if( !Missile.groundExplosion){
   		$.each( attackAmmo, function(index, otherMissile){
   			if(context.isPointInPath( otherMissile.x, otherMissile.y) 
   					&& otherMissile.state === MISSILE.active){
@@ -463,7 +463,7 @@ var missileCommand = (function() {
   	//need to add all the cities that are alive for selection
   	$.each(cities, function(index, city){
   		if(city.active) {
-  			targets.push( [ ctiy.x +15, city.y -10, city] );
+  			targets.push( [ city.x +15, city.y -10, city] );
   		}
   	});
   	//randomly select 3 cities. Gives the ai a better chance to hit and destroy a city
@@ -527,7 +527,7 @@ var missileCommand = (function() {
   	level++;
   	startGame();
   	setUpListeners();
-  }
+  };
 
   //logic for if the game is over and you've died
 
@@ -570,7 +570,7 @@ var missileCommand = (function() {
   	attackAmmo = attackAmmo.filter( function(missile){
   		return missile.state !== MISSILE.exploded;
   	});
-  }
+  };
  
   //drawing each attacking missile
   var drawAttackMissiles = function(){
@@ -597,7 +597,7 @@ var missileCommand = (function() {
   };
 
   //need a function to start animating the game
-  var startGame = function(){
+  var startLevel = function(){
   	var fps = 30;
   	timerID = setInterval( animate, 1000 / fps );
   }
@@ -635,11 +635,11 @@ var missileCommand = (function() {
     }
     if( x <= CANVAS_W / 3 ){
       return fireOuterThirds( 0, 1, 2 );
-    } else if( x <= (2 * CANVAS_WIDTH / 3) ) {
+    } else if( x <= (2 * CANVAS_W / 3) ) {
       if ( defenceTowers[1].hasMissile() ) {
         return 1;
       } else {
-        return ( x <= CANVAS_WIDTH / 2 ) ? fireToCenter( 0, 2 )
+        return ( x <= CANVAS_W / 2 ) ? fireToCenter( 0, 2 )
                                          : fireToCenter( 2, 0 );
       }
     } else {
@@ -650,7 +650,7 @@ var missileCommand = (function() {
   //finally add event listeners to the canvas so that we can take player input on where to fire
   var setUpListeners = function(){
   	$('.container').one('click', function(){
-  		startGame();
+  		startLevel();
 
   		$('.container').on('click', function(event){
   			playerShoot(event.pageX - this.offsetLeft,
@@ -664,7 +664,7 @@ var missileCommand = (function() {
   	setUpListeners: setUpListeners
   };
 
-})();
+}) ();
 
 $(document).ready(function(){
 	missileCommand.initialize();
