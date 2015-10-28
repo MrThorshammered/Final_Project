@@ -93,7 +93,7 @@ var missileCommand = (function() {
 
   //show the current score of the user defending 
   var userScore = function(){
-  	context.fillStyle = 'red';
+  	context.fillStyle = '#ADFF2F';
   	context.font = 'bold 20px Helvetica';
   	context.fillText('Score ' + score, 80,15);
   };
@@ -102,14 +102,14 @@ var missileCommand = (function() {
   //start of every level to give the user a chance to get ready
 
   var drawLevelMessage = function(){
-  	context.fillStyle = 'blue';
+  	context.fillStyle = '#228B22';
     context.font = 'bold 20px Helvetica';
     context.fillText( 'CLICK TO START LEVEL', 130, 180 );
-    context.fillStyle = 'red';
+    context.fillStyle = '#ADFF2F';
     context.fillText( ' ' + level, 370, 180 );
 
     context.fillText( '' + getMultiplier(), 195, 245 );
-    context.fillStyle = 'blue';
+    context.fillStyle = '#228B22';
     context.fillText( 'X  POINTS', 215, 245 );
 
     context.fillText( 'DEFEND', 100, 355 );
@@ -120,26 +120,26 @@ var missileCommand = (function() {
   var endOfLevelMessage = function( missilesLeft, missilesBonus, citiesSaved,	citiesBonus){
   	drawGameParts();
 
-  	context.fillStyle = 'blue';
+  	context.fillStyle = '#228B22';
     context.font = 'bold 20px arial';
     context.fillText( 'BONUS POINTS', 150, 149 );
-    context.fillStyle = 'red';
+    context.fillStyle = '#ADFF2F';
     context.fillText( '' + missilesBonus, 170, 213 );
-    context.fillStyle = 'blue';
+    context.fillStyle = '#228B22';
     context.fillText( 'Missiles Left: ' + missilesLeft, 230, 213 );
-    context.fillStyle = 'red';
+    context.fillStyle = '#ADFF2F';
     context.fillText( '' + citiesBonus, 170, 277 );
-    context.fillStyle = 'blue';
+    context.fillStyle = '#228B22';
     context.fillText( 'Cities Saved: ' + citiesSaved, 230, 277 );
   };
 
   //this is for when the game is over. ie all cities are destroyed
   var drawEndGame = function() {
-    context.fillStyle = 'red';
+    context.fillStyle = '#ADFF2F';
     context.fillRect( 0, 0, CANVAS_W, CANVAS_H );
 
     // Yellow hexagon
-    context.fillStyle = 'yellow';
+    context.fillStyle = '#228B22';
     context.beginPath();
     context.moveTo( 255, 30  );
     context.lineTo( 396, 89  );
@@ -152,11 +152,11 @@ var missileCommand = (function() {
     context.closePath();
     context.fill();
 
-    context.fillStyle = 'red';
+    context.fillStyle = '#ADFF2F';
     context.font = 'bold 85px Helvetica';
     context.fillText( 'THE END', 70, 260 );
 
-    context.fillStyle = 'yellow';
+    context.fillStyle = '#228B22';
     context.font = 'bold 26px Helvetica';
     context.fillText( 'Final Score: ' + score, 80, 20 );
     context.fillText( 'CLICK TO PLAY NEW GAME', 80, 458 );
@@ -185,7 +185,7 @@ var missileCommand = (function() {
 
   var drawBackGround = function() {
   	 // Black background which is good for visuals
-    context.fillStyle = '#black';
+    context.fillStyle = '#1E3822';
     context.fillRect( 0, 0, CANVAS_W, CANVAS_H );
 
     // Yellow area at bottom of the screen for cities and
@@ -216,7 +216,7 @@ var missileCommand = (function() {
   	var x = this.x,
   			y = this.y;
 
-  		context.fillStyle = 'cyan';
+  		context.fillStyle = '#00FF00';
     	context.beginPath();
     	context.moveTo( x, y );
     	context.lineTo( x, y - 10 );
@@ -250,7 +250,7 @@ var missileCommand = (function() {
       y = this.y + delta[i][1];
 
       // Draw a missile while it's in the defence tower
-      context.strokeStyle = 'blue';
+      context.strokeStyle = '#CCFF00';
       context.lineWidth = 2;
       context.beginPath();
       context.moveTo( x, y );
@@ -295,7 +295,7 @@ var missileCommand = (function() {
   	}else if(this.state === MISSILE.exploding || 
   					 this.state === MISSILE.imploding) {
 
-  		context.fillStyle = 'white';
+  		context.fillStyle = '#CCFF00';
       context.beginPath();
       context.arc( this.x, this.y, this.explodeRadius, 0, 2 * Math.PI );
       context.closePath();
@@ -336,7 +336,7 @@ var missileCommand = (function() {
 
   	Missile.call(this, {startX: deftow.x,  startY: deftow.y,
                           endX: endX,     endY: endY, 
-                          color: 'green', trailColor: 'blue'});
+                          color: '#CCFF00', trailColor: '#32CD32'});
 
   	var xDistance = this.endX - this.startX,
   			yDistance = this.endY - this.startY;
