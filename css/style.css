@@ -9,7 +9,7 @@ html, body, div, h1, canvas {
 
 /* Miscellaneous */
 body {
-  background-color: #eee;
+  background-color: hotpink;
 }
 div {
   text-align: center;
@@ -19,7 +19,7 @@ div {
 h1 {
   font: 30px/40px arial, serif;
   padding: 10px;
-  color: #333;
+  color: deeppink;
 }
 .container {
   position: relative;

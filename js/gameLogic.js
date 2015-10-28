@@ -185,12 +185,12 @@ var missileCommand = (function() {
 
   var drawBackGround = function() {
   	 // Black background which is good for visuals
-    context.fillStyle = 'black';
+    context.fillStyle = '#black';
     context.fillRect( 0, 0, CANVAS_W, CANVAS_H );
 
     // Yellow area at bottom of the screen for cities and
     // anti missile batteries which will stand out nicely against the black
-    context.fillStyle = 'yellow';
+    context.fillStyle = '#006400';
     context.beginPath();
     context.moveTo( 0, 460 );
     context.lineTo( 0,  430 );
@@ -364,7 +364,7 @@ var missileCommand = (function() {
 
   //physics logic to track the players missile and explode it
   playerMissile.prototype.update = function(){
-  	if(this.state === MISSILE.active && this.y === this.endY ){
+  	if(this.state === MISSILE.active && this.y <= this.endY ){
   		//the target can be considered to have been reached 
   		this.x = this.endX;
   		this.y = this.endY;
@@ -494,7 +494,7 @@ var missileCommand = (function() {
   var checkEndOfLevel = function(){
   	if(!attackAmmo.length){
   		finishLevel();
-  		$('container').off('click');
+  		$('.container').off('click');
   		var missilesLeft = totalMissilesLeft();
   		citiesSaved = totalCitiesSaved();
 
