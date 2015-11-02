@@ -138,7 +138,7 @@ var missileCommand = (function() {
     context.fillStyle = '#ADFF2F';
     context.fillRect( 0, 0, CANVAS_W, CANVAS_H );
 
-    // Yellow hexagon
+    //hexagon
     context.fillStyle = '#228B22';
     context.beginPath();
     context.moveTo( 255, 30  );
@@ -401,7 +401,7 @@ var missileCommand = (function() {
   			disToTarget;
 
   			Missile.call( this, { startX: startX, startY: startY, endX: target[0], endY: target[1],
-  														color: 'yellow', trailColor: 'red'});
+  														color: 'yellow', trailColor: '#808000'});
 
   			disToTarget = (650 - 30 * level) / changeSpeed;
   				if(disToTarget < 20) {

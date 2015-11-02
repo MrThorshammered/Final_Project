@@ -7,9 +7,10 @@ html, body, div, h1, canvas {
   vertical-align: baseline;
 }
 
-/* Miscellaneous */
 body {
-  background-color: hotpink;
+  background-image: url('../images/jeremy.jpg');
+  background-repeat: repeat;
+
 }
 div {
   text-align: center;
@@ -20,10 +21,22 @@ h1 {
   font: 30px/40px arial, serif;
   padding: 10px;
   color: deeppink;
+  position: relative;
+  left: 40%;
+}
+.border{
+	background: radial-gradient(#999, #000);
+	width: 570px;
+	height: 490px;
+	padding-top: 25px;
+	border-radius: 25px;
+}
+canvas{
+	border-radius: 25px;
 }
 .container {
   position: relative;
-  background-color: green;
+  background-color: green; 
 }
 .crosshair {
   width: 470px;
