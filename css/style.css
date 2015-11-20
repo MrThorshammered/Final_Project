@@ -8,7 +8,7 @@ html, body, div, h1, canvas {
 }
 
 body {
-  background-image: url('../images/jeremy.jpg');
+  background-image: url('../images/wood_texture_background.jpg');
   background-repeat: repeat;
 
 }
@@ -20,7 +20,7 @@ div {
 h1 {
   font: 30px/40px arial, serif;
   padding: 10px;
-  color: deeppink;
+  color: white;
   position: relative;
   left: 40%;
 }
